@@ -1,5 +1,5 @@
 const path = require("path");
-const fs = require("fs/promises");
+const jose = require("jose");
 const express = require("express");
 const { auth, requiresAuth } = require("express-openid-connect");
 const app = express();
@@ -16,6 +16,16 @@ app.use(
     clientID: "example_client",
     secret: "mmake95#kDuRRRR#3rak3r1dccaMd",
     authRequired: false,
+    authorizationParams: {
+      response_type: "id_token",
+      response_mode: "form_post",
+      scope: "openid",
+    },
+    afterCallback: (req, res, session) => {
+      const claims = jose.decodeJwt(session.id_token);
+      console.log(claims);
+      return session;
+    },
   })
 );
 
