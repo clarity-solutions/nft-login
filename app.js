@@ -1,71 +1,65 @@
-// https://github.com/panva/node-oidc-provider
-// MIT License
 const path = require("path");
-const { promisify } = require("util");
+const url = require("url");
 
-const render = require("@koa/ejs");
+const express = require("express");
 const helmet = require("helmet");
 
 const { Provider } = require("oidc-provider");
 
-const Account = require("./src/account");
 const configuration = require("./src/configuration");
 const routes = require("./src/routes");
 
 const { PORT = 3000, ISSUER = `http://localhost:${PORT}` } = process.env;
-configuration.findAccount = Account.findAccount;
+
+const app = express();
+
+const directives = helmet.contentSecurityPolicy.getDefaultDirectives();
+delete directives["form-action"];
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: false,
+      directives,
+    },
+  })
+);
+
+app.set("views", path.join(__dirname, "src/views"));
+app.set("view engine", "ejs");
 
 let server;
-
 (async () => {
   const prod = process.env.NODE_ENV === "production";
 
   const provider = new Provider(ISSUER, { ...configuration });
 
-  const directives = helmet.contentSecurityPolicy.getDefaultDirectives();
-  delete directives["form-action"];
-  const pHelmet = promisify(
-    helmet({
-      contentSecurityPolicy: {
-        useDefaults: false,
-        directives,
-      },
-    })
-  );
-
-  provider.use(async (ctx, next) => {
-    const origSecure = ctx.req.secure;
-    ctx.req.secure = ctx.request.secure;
-    await pHelmet(ctx.req, ctx.res);
-    ctx.req.secure = origSecure;
-    return next();
-  });
-
   if (prod) {
+    app.enable("trust proxy");
     provider.proxy = true;
-    provider.use(async (ctx, next) => {
-      if (ctx.secure) {
-        await next();
-      } else if (ctx.method === "GET" || ctx.method === "HEAD") {
-        ctx.status = 303;
-        ctx.redirect(ctx.href.replace(/^http:\/\//i, "https://"));
+
+    app.use((req, res, next) => {
+      if (req.secure) {
+        next();
+      } else if (req.method === "GET" || req.method === "HEAD") {
+        res.redirect(
+          url.format({
+            protocol: "https",
+            host: req.get("host"),
+            pathname: req.originalUrl,
+          })
+        );
       } else {
-        ctx.body = {
+        res.status(400).json({
           error: "invalid_request",
           error_description: "do yourself a favor and only use https",
-        };
-        ctx.status = 400;
+        });
       }
     });
   }
-  render(provider.app, {
-    cache: false,
-    viewExt: "ejs",
-    layout: "_layout",
-    root: path.join(__dirname, "views"),
-  });
-  provider.use(routes(provider).routes());
-  server = provider.listen(PORT, () => {
+
+  routes(app, provider);
+  app.use(provider.callback());
+  server = app.listen(PORT, () => {
     console.log(
       `application is listening on port ${PORT}, check its /.well-known/openid-configuration`
     );

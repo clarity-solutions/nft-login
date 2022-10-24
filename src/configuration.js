@@ -1,14 +1,17 @@
-// https://github.com/panva/node-oidc-provider
-// MIT License
-
 module.exports = {
   clients: [
-    // {
-    //   client_id: 'oidcCLIENT',
-    //   client_secret: '...',
-    //   grant_types: ['refresh_token', 'authorization_code'],
-    //   redirect_uris: ['http://sso-client.dev/providers/7/open_id', 'http://sso-client.dev/providers/8/open_id'],
-    // }
+    {
+      client_id: "example_client",
+      client_secret: "mmake95#kDuRRRR#3rak3r1dccaMd",
+      redirect_uris: [
+        "https://example.localhost/callback",
+        // using jwt.io as redirect_uri to show the ID Token contents
+        "https://jwt.io",
+      ],
+      response_types: ["id_token"],
+      grant_types: ["implicit"],
+      token_endpoint_auth_method: "none",
+    },
   ],
   interactions: {
     url(ctx, interaction) {
