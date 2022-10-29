@@ -1,40 +1,50 @@
+<!-- <form autocomplete="off" action="/interaction/<%= uid %>/login" method="post">
+  <input required type="text" name="xxx" placeholder="Enter login" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
+  <input required type="password" name="yyyy" placeholder="and password" <% if (params.login_hint) { %>autofocus="on"<% } %>>
+
+  <button type="submit" class="login login-submit">Sign-in</button>
+</form> -->
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
     <script>
-      if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
-
-        const connect = () => {
-          ethereum.enable() // サインインが開く
+      window.addEventListener("load", () => {
+        if (!window.ethereum) {
+          return
         }
 
-        const accounts = await web3.eth.getAccounts() // ユーザーのアドレスの配列が取れる
+        const $ = document.querySelector.bind(document)
 
-        const sign = async () => {
-          const signature = await web3.eth.personal.sign('生成されたメッセージ', accounts[0], '') // 署名できる
+        window.web3 = new Web3(ethereum);
+
+        const onConnect = async () => {
+          // Open a connect window. It resolves when the connection is accepted.
+          const [account] = await ethereum.enable()
+
+          $("#connected-account").textContent = `Connected: ${account}`
+
+          const message = "HELLO, WORLD" // TODO:
+          const accounts = await web3.eth.getAccounts() // ユーザーのアドレスの配列が取れる
+          const signature = await web3.eth.personal.sign(message, accounts[0], '') // 署名できる
           console.log(signature)
         }
 
-        const submit = () => {
-          // TODO: [sigunature, contractAddress, tokenID, accounts[0]] をバックエンドに送る
-        }
-      }
+        $("#connect").addEventListener("click", onConnect)
+      })
     </script>
   </head>
   <body>
     <!-- walletをコネクトする -->
-    <div>
-      <button action="connect()">Connect to Metamask</button>
-    </div>
-    <!-- コネクト後に署名 ボタンじゃなくてもコネクトしたら自動で署名でもいい -->
-    <div>
-      <button action="sign()">署名する</button>
-    </div>
+    <section>
+      <button id="connect">Connect to Metamask</button>
+      <span id="connected-account"></span>
+    </section>
+
     <!-- 署名後に入力 -->
-    <div>
+    <form autocomplete="off" action="/interaction/<%= uid %>/login" method="post">
       <div>
         <label>
           contractAddress
@@ -48,7 +58,7 @@
         </label>
       </div>
 
-      <button action="submit">送信</button>
-    </div>
+      <button type="submit" class="login login-submit">Sign-in</button>
+    </form>
   </body>
 </html>
