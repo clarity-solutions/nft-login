@@ -50,7 +50,7 @@ module.exports = {
   features: {
     devInteractions: { enabled: false }, // defaults to true
 
-    deviceFlow: { enabled: true }, // defaults to false
+    deviceFlow: { enabled: false }, // defaults to false
     revocation: { enabled: true }, // defaults to false
   },
   jwks: {

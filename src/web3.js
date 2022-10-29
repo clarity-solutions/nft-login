@@ -6,7 +6,6 @@ const web3 = new Web3(
     `https://${network}.infura.io/v3/${process.env.INFURA_API_KEY}`
   )
 );
-console.log(web3);
 web3.eth.defaultAccount = process.env.NFT_OIDC_APP_ADDRESS;
 
 // [isUserLoggedIn] ... 署名したアドレスがユーザーのアドレスと同じか確認する
@@ -58,3 +57,8 @@ const isCollectNFTOwner = async (
   }
   return false;
 };
+
+module.exports = {
+  isUserLoggedIn,
+  isCollectNFTOwner,
+}

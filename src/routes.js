@@ -5,6 +5,11 @@ const { inspect } = require("util");
 const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
+const {
+  isUserLoggedIn,
+  isCollectNFTOwner,
+} = require("./web3")
+
 const body = urlencoded({ extended: false });
 
 const keys = new Set();
@@ -104,10 +109,32 @@ module.exports = (app, provider) => {
       try {
         const details = await provider.interactionDetails(req, res);
         console.log("interactionDetails", details);
+        console.log("req.body", req.body)
+
+        const originalMessage = "HELLO, WORLD"
+
+        const {
+          signature,
+          ethereamAddress,
+          tokenContractAddress,
+          tokenID,
+        } = req.body
+
+        const isValidSignature = isUserLoggedIn(originalMessage, signature, ethereamAddress)
+        if (!isValidSignature) {
+          throw new Error("Invalid signature")
+        }
+
+        const isValidOwner = await isCollectNFTOwner(ethereamAddress, tokenContractAddress, tokenID)
+        if (!isValidOwner) {
+          throw new Error("Invalid owner")
+        }
 
         const result = {
           login: {
-            accountId: "1",
+            ethereamAddress,
+            tokenContractAddress,
+            tokenID,
           },
         };
 
