@@ -5,10 +5,7 @@ const { inspect } = require("util");
 const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
-const {
-  isUserLoggedIn,
-  isCollectNFTOwner,
-} = require("./web3")
+const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
 
 const body = urlencoded({ extended: false });
 
@@ -36,21 +33,6 @@ module.exports = (app, provider) => {
       errors: { SessionNotFound },
     },
   } = provider;
-
-  app.use((req, res, next) => {
-    const orig = res.render;
-    // you'll probably want to use a full blown render engine capable of layouts
-    res.render = (view, locals) => {
-      app.render(view, locals, (err, html) => {
-        if (err) throw err;
-        orig.call(res, "_layout", {
-          ...locals,
-          body: html,
-        });
-      });
-    };
-    next();
-  });
 
   function setNoCache(req, res, next) {
     res.set("cache-control", "no-store");
@@ -109,25 +91,29 @@ module.exports = (app, provider) => {
       try {
         const details = await provider.interactionDetails(req, res);
         console.log("interactionDetails", details);
-        console.log("req.body", req.body)
+        console.log("req.body", req.body);
 
-        const originalMessage = "HELLO, WORLD"
+        const originalMessage = "HELLO, WORLD";
 
-        const {
+        const { signature, ethereamAddress, tokenContractAddress, tokenID } =
+          req.body;
+
+        const isValidSignature = isUserLoggedIn(
+          originalMessage,
           signature,
-          ethereamAddress,
-          tokenContractAddress,
-          tokenID,
-        } = req.body
-
-        const isValidSignature = isUserLoggedIn(originalMessage, signature, ethereamAddress)
+          ethereamAddress
+        );
         if (!isValidSignature) {
-          throw new Error("Invalid signature")
+          throw new Error("Invalid signature");
         }
 
-        const isValidOwner = await isCollectNFTOwner(ethereamAddress, tokenContractAddress, tokenID)
+        const isValidOwner = await isCollectNFTOwner(
+          ethereamAddress,
+          tokenContractAddress,
+          tokenID
+        );
         if (!isValidOwner) {
-          throw new Error("Invalid owner")
+          throw new Error("Invalid owner");
         }
 
         const result = {

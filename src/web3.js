@@ -19,7 +19,7 @@ const isUserLoggedIn = (
 ) => {
   const signerAddress = web3.eth.accounts.recover(originalMessage, signature);
 
-  return signerAddress === ethereamAddress;
+  return signerAddress.toLowerCase() === ethereamAddress.toLowerCase();
 };
 
 // [isCollectNFTOwner] ... ユーザーがNFTトークンの正しい所有者か確認する
@@ -61,4 +61,4 @@ const isCollectNFTOwner = async (
 module.exports = {
   isUserLoggedIn,
   isCollectNFTOwner,
-}
+};

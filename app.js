@@ -13,6 +13,8 @@ const { PORT = 3000, ISSUER = `http://localhost:${PORT}` } = process.env;
 
 const app = express();
 
+app.use(express.static("public"));
+
 const directives = helmet.contentSecurityPolicy.getDefaultDirectives();
 delete directives["form-action"];
 app.use(
