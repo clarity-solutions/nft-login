@@ -46,12 +46,15 @@ const isCollectNFTOwner = async (
     const contract = new web3.eth.Contract(jsonInterface, tokenContractAddress);
     const ownerAddress = await contract.methods.ownerOf(tokenID).call();
 
-    if (ethereamAddress === ownerAddress) {
+    if (ethereamAddress.toLowerCase() === ownerAddress.toLowerCase()) {
       return true;
     } else {
-      console.log("wrong owner");
+      console.log("wrong owner", {
+        ethereamAddress,
+        ownerAddress,
+      });
+      return false;
     }
-    return ethereamAddress === ownerAddress;
   } catch (e) {
     console.log(e);
   }

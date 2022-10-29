@@ -95,7 +95,7 @@ module.exports = (app, provider) => {
 
         const originalMessage = "HELLO, WORLD";
 
-        const { signature, ethereamAddress, tokenContractAddress, tokenID } =
+        const { signature, ethereamAddress, contractAddress, tokenID } =
           req.body;
 
         const isValidSignature = isUserLoggedIn(
@@ -109,7 +109,7 @@ module.exports = (app, provider) => {
 
         const isValidOwner = await isCollectNFTOwner(
           ethereamAddress,
-          tokenContractAddress,
+          contractAddress,
           tokenID
         );
         if (!isValidOwner) {
@@ -119,7 +119,7 @@ module.exports = (app, provider) => {
         const result = {
           login: {
             ethereamAddress,
-            tokenContractAddress,
+            contractAddress,
             tokenID,
           },
         };
