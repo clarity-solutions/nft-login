@@ -118,6 +118,7 @@ module.exports = (app, provider) => {
 
         const result = {
           login: {
+            accountId: `${contractAddress}/${tokenID}`,
             ethereamAddress,
             contractAddress,
             tokenID,

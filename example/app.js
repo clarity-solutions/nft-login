@@ -23,6 +23,17 @@ app.use(
     },
     afterCallback: (req, res, session) => {
       const claims = jose.decodeJwt(session.id_token);
+      // example
+      // sub is accountId
+      // {
+      //   sub: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09/2',
+      //   nonce: '-IygZH4FeWgPFoQp5i2yuHT98HR58Acfz_XlIhO4xAk',
+      //   s_hash: 'WxpefKbbgUvRDs_oYHGBQw',
+      //   aud: 'example_client',
+      //   exp: 1667043182,
+      //   iat: 1667039582,
+      //   iss: 'http://localhost:3000'
+      // }
       console.log(claims);
       return session;
     },
