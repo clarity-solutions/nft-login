@@ -20,7 +20,6 @@
     "web3": "^1.8.0"
   },
   "devDependencies": {
-    "@koa/ejs": "^5.0.0",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "nodemon": "^2.0.20",
@@ -36,11 +35,12 @@
   },
   "scripts": {
     "dev": "nodemon app.js --watch src/",
+    "example": "node example/app.js",
     "format": "prettier --write .",
     "lint": "eslint",
     "prepare": "scripts/prepare.sh",
     "start": "node app.js",
-    "prod": "pm2 start app.js",
+    "prod": "pm2 start app.js && pm2 start app.js --name example",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
