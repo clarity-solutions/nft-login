@@ -49,6 +49,10 @@ app.get("/private", requiresAuth(), (req, res) => {
   res.sendFile(staticFile("private.html"));
 });
 
+app.get("/images/:image", requiresAuth(), (req, res) => {
+  res.sendFile(staticFile(`images/${req.params.image}`));
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
