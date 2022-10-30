@@ -21,6 +21,7 @@ app.use(
       response_mode: "form_post",
       scope: "openid",
     },
+    idpLogout: true,
     afterCallback: (req, res, session) => {
       const claims = jose.decodeJwt(session.id_token);
       // example
