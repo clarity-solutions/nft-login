@@ -137,7 +137,7 @@ module.exports = (app, provider) => {
     async (req, res, next) => {
       try {
         const interactionDetails = await provider.interactionDetails(req, res);
-        console.log("interactionDetails on /interaction/:uid/confirm", details);
+        console.log("interactionDetails on /interaction/:uid/confirm", interactionDetails);
         const {
           prompt: { name, details },
           params,
