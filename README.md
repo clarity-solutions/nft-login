@@ -36,3 +36,17 @@ Launch the server.
 ```
 npm run dev
 ```
+
+### Example website
+
+You need a reverse proxy to serve https locally.
+
+- Caddy https://caddyserver.com/docs/install
+
+```
+$ caddy reverse-proxy --from example.localhost:443 --to localhost:3001
+```
+
+```
+npm run example
+```
