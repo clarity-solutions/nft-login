@@ -43,4 +43,14 @@ window.addEventListener("load", () => {
   };
 
   $("#connect").addEventListener("click", onConnect);
+
+  // Show error message.
+  // It shows search param "error" directly.
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.get("error")) {
+    const element = document.createElement("p");
+    element.textContent = searchParams.get("error");
+    element.id = "error";
+    $("#error-container").append(element);
+  }
 });

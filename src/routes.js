@@ -6,6 +6,7 @@ const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
 const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
+const { InvalidSignatureError, InvalidOwnerError } = require("./errors");
 
 const body = urlencoded({ extended: false });
 
@@ -83,57 +84,52 @@ module.exports = (app, provider) => {
     }
   });
 
-  app.post(
-    "/interaction/:uid/login",
-    setNoCache,
-    body,
-    async (req, res, next) => {
-      try {
-        const details = await provider.interactionDetails(req, res);
-        console.log("interactionDetails", details);
-        console.log("req.body", req.body);
+  app.post("/interaction/:uid/login", setNoCache, body, async (req, res) => {
+    try {
+      const details = await provider.interactionDetails(req, res);
+      console.log("interactionDetails", details);
+      console.log("req.body", req.body);
 
-        const originalMessage = "HELLO, WORLD";
+      const originalMessage = "HELLO, WORLD";
 
-        const { signature, ethereamAddress, contractAddress, tokenID } =
-          req.body;
+      const { signature, ethereamAddress, contractAddress, tokenID } = req.body;
 
-        const isValidSignature = isUserLoggedIn(
-          originalMessage,
-          signature,
-          ethereamAddress
-        );
-        if (!isValidSignature) {
-          throw new Error("Invalid signature");
-        }
+      const isValidSignature = isUserLoggedIn(
+        originalMessage,
+        signature,
+        ethereamAddress
+      );
+      if (!isValidSignature) {
+        throw new InvalidSignatureError();
+      }
 
-        const isValidOwner = await isCollectNFTOwner(
+      const isValidOwner = await isCollectNFTOwner(
+        ethereamAddress,
+        contractAddress,
+        tokenID
+      );
+      if (!isValidOwner) {
+        throw new InvalidOwnerError();
+      }
+
+      const result = {
+        login: {
+          accountId: `${contractAddress}/${tokenID}`,
           ethereamAddress,
           contractAddress,
-          tokenID
-        );
-        if (!isValidOwner) {
-          throw new Error("Invalid owner");
-        }
+          tokenID,
+        },
+      };
 
-        const result = {
-          login: {
-            accountId: `${contractAddress}/${tokenID}`,
-            ethereamAddress,
-            contractAddress,
-            tokenID,
-          },
-        };
-
-        await provider.interactionFinished(req, res, result, {
-          mergeWithLastSubmission: false,
-        });
-        console.log("interactionFinished");
-      } catch (err) {
-        next(err);
-      }
+      await provider.interactionFinished(req, res, result, {
+        mergeWithLastSubmission: false,
+      });
+      console.log("interactionFinished");
+    } catch (err) {
+      console.error(`Error on "/interaction/:uid/login"`, err.message);
+      res.redirect(`/interaction/${req.params.uid}?error=${err.message}`);
     }
-  );
+  });
 
   app.post(
     "/interaction/:uid/confirm",

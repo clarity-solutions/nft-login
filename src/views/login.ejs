@@ -11,6 +11,11 @@
       .hidden {
         display: none;
       }
+      #error {
+        color: #ef1818;
+        background: var(--code-background-color);
+        padding: 1em;
+      }
     </style>
     <script src="/login.js"></script>
   </head>
@@ -18,6 +23,7 @@
     <main class="container">
       <article>
         <h1>Sign in with NFT</h1>
+        <div id="error-container"></div>
         <section>
           <button id="connect">Connect to Metamask</button>
           <pre
