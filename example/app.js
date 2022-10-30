@@ -9,6 +9,17 @@ const staticFile = (filename) => {
   return path.resolve(__dirname, "static", filename);
 };
 
+const accounts = [
+  {
+    "nft_contract_address": "0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09",
+    "nft_item_id": "2"
+  },
+  {
+    "nft_contract_address": "0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09",
+    "nft_item_id": "5"
+  }
+]
+
 app.use(
   auth({
     issuerBaseURL: "http://localhost:3000",
@@ -35,7 +46,19 @@ app.use(
       //   iat: 1667105141,
       //   iss: 'http://localhost:3000'
       // }
-      console.log(claims);
+      console.log(claims)
+
+      const {
+        nft_contract_address,
+        nft_item_id,
+      } = claims
+      const validAccount = accounts.find((account) => account.nft_contract_address === nft_contract_address && account.nft_item_id === nft_item_id)
+
+      if (!validAccount) {
+        res.send("Not Allowed NFT")
+        return
+      }
+
       return session;
     },
   })
