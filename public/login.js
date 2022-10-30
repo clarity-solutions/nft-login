@@ -10,7 +10,10 @@ window.addEventListener("load", () => {
   window.web3 = new Web3(ethereum);
 
   const submitButton = $("#submit-login");
-  submitButton.disabled = true;
+  submitButton.disabled = ![
+    $("input[name=contractAddress]"),
+    $("input[name=tokenID]"),
+  ].every((input) => Boolean(input.value));
 
   const { uid } = $("#uid").dataset;
   const messageToBeSigned = `Sign in with NFT: ${uid}`;
