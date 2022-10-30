@@ -15,10 +15,24 @@ module.exports = {
   ],
   interactions: {
     url(ctx, interaction) {
-      // eslint-disable-line no-unused-vars
       return `/interaction/${interaction.uid}`;
     },
   },
+  async findAccount(ctx, sub,) {
+    // sub is "/"-separated string
+    const [nft_contract_address, nft_item_id] = sub.split("/")
+    return {
+      accountId: sub,
+      async claims() {
+        return {
+          sub,
+          nft_contract_address,
+          nft_item_id,
+        }
+      }
+    }
+  },
+  responseTypes: ["id_token"],
   cookies: {
     keys: [
       "some secret key",
@@ -27,32 +41,9 @@ module.exports = {
     ],
   },
   claims: {
-    address: ["address"],
-    email: ["email", "email_verified"],
-    phone: ["phone_number", "phone_number_verified"],
-    profile: [
-      "birthdate",
-      "family_name",
-      "gender",
-      "given_name",
-      "locale",
-      "middle_name",
-      "name",
-      "nickname",
-      "picture",
-      "preferred_username",
-      "profile",
-      "updated_at",
-      "website",
-      "zoneinfo",
-    ],
+    openid: ["sub", "nft_contract_address", "nft_item_id"]
   },
-  features: {
-    devInteractions: { enabled: false }, // defaults to true
-
-    deviceFlow: { enabled: false }, // defaults to false
-    revocation: { enabled: true }, // defaults to false
-  },
+  features: {},
   jwks: {
     keys: [
       {
