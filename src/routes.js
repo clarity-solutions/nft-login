@@ -5,7 +5,6 @@ const { inspect } = require("util");
 const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
-const clients = require("./clients.json");
 const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
 const { InvalidSignatureError, InvalidOwnerError } = require("./errors");
 
@@ -101,23 +100,6 @@ module.exports = (app, provider) => {
       );
       if (!isValidSignature) {
         throw new InvalidSignatureError();
-      }
-
-      const clientId = details.params.client_id;
-      const client = clients.find(
-        ({ client }) => client.client_id === clientId
-      );
-      if (!client) {
-        throw new Error("Invalid client");
-      }
-
-      const validAccount = client.accounts.find(
-        (account) =>
-          account.nft_contract_address === contractAddress &&
-          account.nft_item_id === tokenID
-      );
-      if (!validAccount) {
-        throw new Error(`This NFT is not allowed`);
       }
 
       const isValidOwner = await isCollectNFTOwner(
