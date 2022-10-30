@@ -3,7 +3,10 @@
     "client_name": "Example Web App",
     "client_id": "example_client",
     "client_secret": "mmake95#kDuRRRR#3rak3r1dccaMd",
-    "redirect_uris": ["https://example.localhost/callback"],
+    "redirect_uris": [
+      "https://example.localhost/callback",
+      "https://nftoidc-example.clsl.net/callback"
+    ],
     "response_types": ["id_token"],
     "grant_types": ["implicit"],
     "token_endpoint_auth_method": "none"
