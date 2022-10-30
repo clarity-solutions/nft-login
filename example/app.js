@@ -25,7 +25,7 @@ const prd = process.env.NODE_ENV === "production"
 app.use(
   auth({
     issuerBaseURL: prd ? "https://nftoidc.clsl.net" : "http://localhost:3000",
-    baseURL: prd ? "nftoidc-example.clsl.net" : "https://example.localhost",
+    baseURL: prd ? "https://nftoidc-example.clsl.net" : "https://example.localhost",
     clientID: "example_client",
     secret: "mmake95#kDuRRRR#3rak3r1dccaMd",
     authRequired: false,

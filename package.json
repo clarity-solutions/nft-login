@@ -40,7 +40,7 @@
     "lint": "eslint",
     "prepare": "scripts/prepare.sh",
     "start": "node app.js",
-    "prod": "pm2 start app.js && pm2 start app.js --name example",
+    "prod": "pm2 start app.js && pm2 start example/app.js --name example",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
