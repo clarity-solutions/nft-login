@@ -6,7 +6,7 @@ const jwks = require("./jwks.json");
 const clients = require("./clients.json");
 
 module.exports = {
-  clients: clients.map(({ client }) => client),
+  clients,
   interactions: {
     url(ctx, interaction) {
       return `/interaction/${interaction.uid}`;

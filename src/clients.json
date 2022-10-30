@@ -1,23 +1,14 @@
 [
   {
-    "client": {
-      "client_name": "Example Web App",
-      "client_id": "example_client",
-      "client_secret": "mmake95#kDuRRRR#3rak3r1dccaMd",
-      "redirect_uris": ["https://example.localhost/callback"],
-      "response_types": ["id_token"],
-      "grant_types": ["implicit"],
-      "token_endpoint_auth_method": "none"
-    },
-    "accounts": [
-      {
-        "nft_contract_address": "0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09",
-        "nft_item_id": "2"
-      },
-      {
-        "nft_contract_address": "0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09",
-        "nft_item_id": "5"
-      }
-    ]
+    "client_name": "Example Web App",
+    "client_id": "example_client",
+    "client_secret": "mmake95#kDuRRRR#3rak3r1dccaMd",
+    "redirect_uris": [
+      "https://example.localhost/callback",
+      "https://nftoidc-example.clsl.net/callback"
+    ],
+    "response_types": ["id_token"],
+    "grant_types": ["implicit"],
+    "token_endpoint_auth_method": "none"
   }
 ]
