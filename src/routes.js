@@ -89,7 +89,7 @@ module.exports = (app, provider) => {
       const details = await provider.interactionDetails(req, res);
       console.log("interactionDetails on /interaction/:uid/login", details);
 
-      const originalMessage = `Sign in with NFT: ${req.params.uid}`
+      const originalMessage = `Sign in with NFT: ${req.params.uid}`;
 
       const { signature, ethereamAddress, contractAddress, tokenID } = req.body;
 
@@ -134,7 +134,10 @@ module.exports = (app, provider) => {
     async (req, res, next) => {
       try {
         const interactionDetails = await provider.interactionDetails(req, res);
-        console.log("interactionDetails on /interaction/:uid/confirm", interactionDetails);
+        console.log(
+          "interactionDetails on /interaction/:uid/confirm",
+          interactionDetails
+        );
         const {
           prompt: { name, details },
           params,
