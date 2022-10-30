@@ -12,6 +12,9 @@ window.addEventListener("load", () => {
   const submitButton = $("#submit-login");
   submitButton.disabled = true;
 
+  const { uid } = $("#uid").dataset
+  const messageToBeSigned = `Sign in with NFT: ${uid}`
+
   const onConnect = async () => {
     // Open a connect window. It resolves when the connection is accepted.
     const [ethereamAddress] = await ethereum.enable();
@@ -19,13 +22,11 @@ window.addEventListener("load", () => {
     $("#connected-account").textContent = `Connected: ${ethereamAddress}`;
     $("#account-visibility-toggle").className = "";
 
-    const message = "HELLO, WORLD"; // TODO:
     const signature = await web3.eth.personal.sign(
-      message,
+      messageToBeSigned,
       ethereamAddress,
       ""
     ); // 署名できる
-    console.log(signature);
 
     $("input[name=signature]").value = signature;
     $("input[name=ethereamAddress]").value = ethereamAddress;

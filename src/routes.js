@@ -87,10 +87,9 @@ module.exports = (app, provider) => {
   app.post("/interaction/:uid/login", setNoCache, body, async (req, res) => {
     try {
       const details = await provider.interactionDetails(req, res);
-      console.log("interactionDetails", details);
-      console.log("req.body", req.body);
+      console.log("interactionDetails on /interaction/:uid/login", details);
 
-      const originalMessage = "HELLO, WORLD";
+      const originalMessage = `Sign in with NFT: ${req.params.uid}`
 
       const { signature, ethereamAddress, contractAddress, tokenID } = req.body;
 
@@ -138,6 +137,7 @@ module.exports = (app, provider) => {
     async (req, res, next) => {
       try {
         const interactionDetails = await provider.interactionDetails(req, res);
+        console.log("interactionDetails on /interaction/:uid/confirm", details);
         const {
           prompt: { name, details },
           params,
