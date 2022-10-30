@@ -105,3 +105,4 @@ dist
 
 public/*.min.css
 public/*.min.js
+jwks.json

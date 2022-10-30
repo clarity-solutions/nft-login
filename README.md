@@ -26,6 +26,7 @@ Clone this repository and prepare the project.
 
 ```
 npm install
+node scripts/generate-keys.js
 ```
 
 Create `.env` from `.env.example`.
