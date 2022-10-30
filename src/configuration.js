@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   clients: [
     {
@@ -18,9 +20,9 @@ module.exports = {
       return `/interaction/${interaction.uid}`;
     },
   },
-  async findAccount(ctx, sub,) {
+  async findAccount(ctx, sub) {
     // sub is "/"-separated string
-    const [nft_contract_address, nft_item_id] = sub.split("/")
+    const [nft_contract_address, nft_item_id] = sub.split("/");
     return {
       accountId: sub,
       async claims() {
@@ -28,20 +30,16 @@ module.exports = {
           sub,
           nft_contract_address,
           nft_item_id,
-        }
-      }
-    }
+        };
+      },
+    };
   },
   responseTypes: ["id_token"],
   cookies: {
-    keys: [
-      "some secret key",
-      "and also the old rotated away some time ago",
-      "and one more",
-    ],
+    keys: process.env.OIDCP_SECURE_KEYS.split(","),
   },
   claims: {
-    openid: ["sub", "nft_contract_address", "nft_item_id"]
+    openid: ["sub", "nft_contract_address", "nft_item_id"],
   },
   features: {},
   jwks: {
