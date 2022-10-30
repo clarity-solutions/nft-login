@@ -6,13 +6,10 @@ const jwks = require("./jwks.json");
 module.exports = {
   clients: [
     {
+      client_name: "Example Web App",
       client_id: "example_client",
       client_secret: "mmake95#kDuRRRR#3rak3r1dccaMd",
-      redirect_uris: [
-        "https://example.localhost/callback",
-        // using jwt.io as redirect_uri to show the ID Token contents
-        "https://jwt.io",
-      ],
+      redirect_uris: ["https://example.localhost/callback"],
       response_types: ["id_token"],
       grant_types: ["implicit"],
       token_endpoint_auth_method: "none",
@@ -44,6 +41,10 @@ module.exports = {
   claims: {
     openid: ["sub", "nft_contract_address", "nft_item_id"],
   },
-  features: {},
+  features: {
+    devInteractions: {
+      enabled: false,
+    },
+  },
   jwks,
 };
