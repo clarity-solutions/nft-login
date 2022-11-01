@@ -37,6 +37,15 @@ Launch the server.
 npm run dev
 ```
 
+Add new client app
+
+```
+curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"name":"Your App Name", "redirectURIs":["https://{clientApp}/callback"], "postLogoutRedirectURIs":["https://{clientApp}"]}' \
+localhost:3000/myApp
+```
+
 ### Example website
 
 You need a reverse proxy to serve https locally.

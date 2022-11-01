@@ -207,7 +207,7 @@ module.exports = (app, provider) => {
     }
   });
 
-  app.post("/myApp", async (req, res, next) => {
+  app.post("/clients", async (req, res, next) => {
     try {
       const { name, redirectURIs, postLogoutRedirectURIs } = req.body;
 
