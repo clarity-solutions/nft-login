@@ -209,13 +209,17 @@ module.exports = (app, provider) => {
 
   app.post("/myApp", async (req, res, next) => {
     try {
-      const { name, redirectURLs } = req.body;
+      const { name, redirectURIs, postLogoutRedirectURIs } = req.body;
 
       if (!name) throw new Error("name is required.");
-      if (redirectURLs.length == 0)
-        throw new Error("redirectURLs can't be empty.");
+      if (redirectURIs.length == 0)
+        throw new Error("redirectURIs can't be empty.");
 
-      const { id, client_secret } = await registerClientApp(name, redirectURLs);
+      const { id, client_secret } = await registerClientApp(
+        name,
+        redirectURIs,
+        postLogoutRedirectURIs
+      );
 
       return res.send({ id, client_secret });
     } catch (err) {

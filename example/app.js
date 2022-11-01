@@ -24,26 +24,26 @@ app.use(
     baseURL: prd
       ? "https://nftoidc-example.clsl.net"
       : "https://example.localhost",
-    clientID: "8fbe64c4-c279-4f91-971d-1419a9553ddb", // change to your clientID
+    clientID: "263de25f-ba14-4ad4-849a-ae473e4f9641", // change to your clientID
     secret:
-      "TUWEpEMjCQbx1U/pIHHLENM2GjSRKYSclCVAVdhsD7sJPXTejwNetYz714c95zih6g4QVE/W43PIgmdgqpyrCDubk0IqExGBdvrl6wiRTa2IMlmOSkdw2UUuhbKPX9GzGIc/okHGwJ+qAWLuFonqblW8BqQuocjXvbCka/FKvfRty25QJIe2tssEpqtNlg1RRMh6iHsYT8QCter89SxlVcaATBXjhpZSL1o+VHjtpEIeeWIe25aYWr2eQuJA+oeGuF4qRh/16nhHsynG19cdqpPdgpT3oD4AB+cd/57UHxP3DKnAw3UD3bPn/Pm/wh5VbMjvW7gfhYp8pDzChV/JLw==", // change to your clientSecret
+      "Qzbzd3ZICF7dwkeYZBYo6tMXgBgt3QqK6goZe17OYKbwjM8ZwVyMQ59ToreVDL2zm1q36w7QpuemNR0VFO4bx2HsNCH4ESxcrU362hs3S5rqhVqpbfBP3+aJ+o9HAS9tIWBdMwICP94jiQY4rN54gnW8m3XvNPErRcfZ1/4la7a8y3Bvr1O+xYpX9HhC8+Qj0pm+rLcJYZHy21Mw3U46+iJoeQN6QXLIBa1EBTn1Wr0ECqQRoCnWoCOPsLkq0CsNMNic/z3W1kHGEf2ZHw0blaY8IKedIrxeD7ijwwbymAPgOH2JI+oHRtEv65Pgvq1GxJgYPlis4Yh0WJZddAdPhQ==", // change to your clientSecret
     authRequired: false,
     authorizationParams: {
       response_type: "id_token",
       response_mode: "form_post",
       scope: "openid",
     },
-    idpLogout: false,
+    idpLogout: true,
     afterCallback: (req, res, session) => {
       const claims = jose.decodeJwt(session.id_token);
       // example
       // {
-      //   sub: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09/2',
+      //   sub: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09/2', # account_id
       //   nft_contract_address: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09',
       //   nft_item_id: '2',
       //   nonce: 'zMBFYuM5WRy86IOIFcGYl7PM8tPHBPSl0WmPtG7F4Ac',
       //   s_hash: 'WxpefKbbgUvRDs_oYHGBQw',
-      //   aud: 'example_client',
+      //   aud: '8fbe64c4-c279-4f91-971d-1419a9553ddb', # client_id
       //   exp: 1667108741,
       //   iat: 1667105141,
       //   iss: 'http://localhost:3000'

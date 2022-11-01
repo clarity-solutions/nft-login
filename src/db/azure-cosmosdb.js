@@ -18,7 +18,11 @@ const client = new CosmosClient(options);
 /**
  * Register new client
  */
-async function registerClientApp(name, redirectURIs) {
+async function registerClientApp(
+  name,
+  redirectURIs,
+  post_logout_redirect_uris = ""
+) {
   const client_id = crypto.randomUUID();
   const client_secret = crypto.randomBytes(256).toString("base64");
   await createFamilyItem({
@@ -28,6 +32,7 @@ async function registerClientApp(name, redirectURIs) {
     partitionKey: "",
     client_secret,
     redirect_uris: redirectURIs,
+    post_logout_redirect_uris,
     response_types: ["id_token"],
     grant_types: ["implicit"],
     token_endpoint_auth_method: "none",
