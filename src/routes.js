@@ -6,6 +6,7 @@ const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
 const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
+const { registerClientApp } = require("./db/azure-cosmosdb");
 const { InvalidSignatureError, InvalidOwnerError } = require("./errors");
 
 const body = urlencoded({ extended: false });
@@ -201,6 +202,22 @@ module.exports = (app, provider) => {
       await provider.interactionFinished(req, res, result, {
         mergeWithLastSubmission: false,
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/myApp", async (req, res, next) => {
+    try {
+      const { name, redirectURLs } = req.body;
+
+      if (!name) throw new Error("name is required.");
+      if (redirectURLs.length == 0)
+        throw new Error("redirectURLs can't be empty.");
+
+      const { id, client_secret } = await registerClientApp(name, redirectURLs);
+
+      return res.send({ id, client_secret });
     } catch (err) {
       next(err);
     }

@@ -10,11 +10,12 @@ const { Provider } = require("oidc-provider");
 
 const configuration = require("./src/configuration");
 const routes = require("./src/routes");
+const { queryContainer } = require("./src/db/azure-cosmosdb");
 
 const prod = process.env.NODE_ENV === "production";
 
-const PORT = 3000
-const ISSUER = prod ? "https://nftoidc.clsl.net" : `http://localhost:${PORT}`
+const PORT = 3000;
+const ISSUER = prod ? "https://nftoidc.clsl.net" : `http://localhost:${PORT}`;
 
 const app = express();
 
@@ -31,12 +32,15 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.set("views", path.join(__dirname, "src/views"));
 app.set("view engine", "ejs");
 
 let server;
 (async () => {
-  const provider = new Provider(ISSUER, { ...configuration });
+  const clients = await queryContainer();
+  const provider = new Provider(ISSUER, { ...configuration, clients });
 
   if (prod) {
     app.enable("trust proxy");
