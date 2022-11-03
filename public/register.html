@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/pico.min.css" />
+    <title>Register | NFT Login</title>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const $ = document.querySelector.bind(document);
+
+        // Show error message.
+        // It shows search param "error" directly.
+        const searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.get("error")) {
+          const element = document.createElement("p");
+          element.textContent = searchParams.get("error");
+          element.id = "error";
+          $("#error-container").append(element);
+        }
+      });
+    </script>
+    <style>
+      .hidden {
+        display: none;
+      }
+      #error {
+        color: #ef1818;
+        background: var(--code-background-color);
+        padding: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <article style="margin-top: 0">
+        <h1>Register client</h1>
+        <div id="error-container"></div>
+
+        <form autocomplete="off" action="/clients" method="post">
+          <div>
+            <label>
+              App Name
+              <input type="text" name="appName" />
+            </label>
+          </div>
+          <div>
+            <label>
+              Redirect URI
+              <input type="text" name="redirectURI" />
+            </label>
+          </div>
+          <div>
+            <label>
+              Post Logout Redirect URI (optional)
+              <input type="text" name="postLogoutRedirectURI" />
+            </label>
+          </div>
+
+          <div style="margin-top: 2rem">
+            <input type="submit" value="Register" />
+          </div>
+        </form>
+      </article>
+    </main>
+  </body>
+</html>

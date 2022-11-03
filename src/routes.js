@@ -207,23 +207,29 @@ module.exports = (app, provider, clientAdapter) => {
     }
   });
 
-  app.post("/clients", async (req, res, next) => {
+  app.post("/clients", body, async (req, res, next) => {
     try {
-      const { name, redirectURIs, postLogoutRedirectURIs } = req.body;
+      const { appName, redirectURI, postLogoutRedirectURI } = req.body;
 
-      if (!name) return res.status(400).send("name is required.");
-      if (redirectURIs.length == 0)
-        return res.status(400).send("redirectURIs can't be empty.");
+      if (!appName) {
+        res.redirect(`/register.html?error=App Name is required.`);
+        return;
+      }
+
+      if (!redirectURI) {
+        res.redirect(`/register.html?error=Redirect URI is required.`);
+        return;
+      }
 
       const client_id = crypto.randomUUID();
       const client_secret = crypto.randomBytes(256).toString("base64");
       const client = {
-        client_name: name,
+        client_name: appName,
         client_id,
         partitionKey: "",
         client_secret,
-        redirect_uris: redirectURIs,
-        post_logout_redirect_uris: postLogoutRedirectURIs,
+        redirect_uris: [redirectURI],
+        post_logout_redirect_uris: [postLogoutRedirectURI].filter(Boolean),
         response_types: ["id_token"],
         grant_types: ["implicit"],
         token_endpoint_auth_method: "none",
@@ -232,9 +238,14 @@ module.exports = (app, provider, clientAdapter) => {
       await clientAdapter.upsert(client_id, client);
       const result = await clientAdapter.find(client_id);
       console.log(result);
-      res.status(201).send(result);
+
+      res.render("registered", {
+        client,
+      });
     } catch (err) {
-      res.status(400).send("Bad Request");
+      res.redirect(
+        `/register.html?error=Sorry. Internal server error occured. Please retry again.`
+      );
       next(err);
     }
   });
