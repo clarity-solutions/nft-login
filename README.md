@@ -20,6 +20,38 @@ This is an OpenID Connect identity provider (OIDC IdP). It allows owners of spec
 
 TBD
 
+## Usage
+
+Register your app to NFT-OIDC and get client_id and client_secret. You needs them to request idToken from NFT-OIDC.
+
+```sh
+curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"name":"Your App Name", "redirectURIs":["https://${yourAppUrl}/callback"], "postLogoutRedirectURIs":["https://${yourAppUrl}"]}' \
+https://nftoidc.clsl.net/clients
+
+# response
+{
+  "id":"your-client-id",
+  "client_secret":"your-client-secret"
+}
+
+```
+
+### Example website
+
+```
+npm run example
+```
+
+When you run example in localhost, you need a reverse proxy to serve https locally.
+
+- Caddy https://caddyserver.com/docs/install
+
+```
+$ caddy reverse-proxy --from example.localhost:443 --to localhost:3001
+```
+
 ## Development
 
 Clone this repository and prepare the project.
@@ -35,18 +67,4 @@ Launch the server.
 
 ```
 npm run dev
-```
-
-### Example website
-
-You need a reverse proxy to serve https locally.
-
-- Caddy https://caddyserver.com/docs/install
-
-```
-$ caddy reverse-proxy --from example.localhost:443 --to localhost:3001
-```
-
-```
-npm run example
 ```

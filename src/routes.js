@@ -1,4 +1,5 @@
 const { strict: assert } = require("assert");
+const crypto = require("crypto");
 const querystring = require("querystring");
 const { inspect } = require("util");
 
@@ -28,7 +29,7 @@ const debug = (obj) =>
     }
   );
 
-module.exports = (app, provider) => {
+module.exports = (app, provider, clientAdapter) => {
   const {
     constructor: {
       errors: { SessionNotFound },
@@ -202,6 +203,38 @@ module.exports = (app, provider) => {
         mergeWithLastSubmission: false,
       });
     } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/clients", async (req, res, next) => {
+    try {
+      const { name, redirectURIs, postLogoutRedirectURIs } = req.body;
+
+      if (!name) return res.status(400).send("name is required.");
+      if (redirectURIs.length == 0)
+        return res.status(400).send("redirectURIs can't be empty.");
+
+      const client_id = crypto.randomUUID();
+      const client_secret = crypto.randomBytes(256).toString("base64");
+      const client = {
+        client_name: name,
+        client_id,
+        partitionKey: "",
+        client_secret,
+        redirect_uris: redirectURIs,
+        post_logout_redirect_uris: postLogoutRedirectURIs,
+        response_types: ["id_token"],
+        grant_types: ["implicit"],
+        token_endpoint_auth_method: "none",
+      };
+
+      await clientAdapter.upsert(client_id, client);
+      const result = await clientAdapter.find(client_id);
+      console.log(result);
+      res.status(201).send(result);
+    } catch (err) {
+      res.status(400).send("Bad Request");
       next(err);
     }
   });

@@ -1,10 +1,7 @@
 const Web3 = require("web3");
 
-const network = process.env.POLYGON_NETWORK;
 const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://${network}.infura.io/v3/${process.env.INFURA_API_KEY}`
-  )
+  new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER_URI)
 );
 web3.eth.defaultAccount = process.env.NFT_OIDC_APP_ADDRESS;
 
