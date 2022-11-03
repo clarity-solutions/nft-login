@@ -27,9 +27,9 @@ app.use(
     baseURL: prd
       ? "https://nftoidc-example.clsl.net"
       : "https://example.localhost",
-    clientID: "4c6058d1-9055-46d6-91ff-bd32582ff885", // change to your clientID
+    clientID: "745bb7cc-1837-4d41-928c-f217da22d453", // change to your clientID
     secret:
-      "QSElgQjuXjLmKE47zOaZaR4cwYuEl2kxFfSltDGm9SHJy60BxFqVgyOX3LjI2nU/qoI7piqTRh9N3fCwX/Ye7AuXC3aZpeYrtkISr7BEbkOUx2XlpyGnR/3MTqub8oa1Z0CVb4Eic6he0MG9w1ViUlLlXFtY+4FHU04GeT7M7IfgDvolLvSSflfoUmU7pBSxulfyjSg/J0N+Lo140O10IOEDGiRd/8dZIbgPIx7gIyKoJ2AqNb4wZhowv05TXmPydaIUOH/EO/0p2G+LlvU+7PSwyApjoCtgyLIYQxNqbzPfrnQN3d3OIKIYyn+jZ5JjmO8/vN8UmMkb4LEJ7UaudA==", // change to your clientSecret
+      "HADdWFa/WElYfLZh8LuPDqKiMAV+LPw1V5fAMLe++8js7wfGIiMPEO4FvMvxSQHqjMhq2zrcelMzRjsEWaYnjGto/JJ/6Jp1SotsRhiVBlW7FrKnB6H4MG/mpbNcsjuUrYouRd0vjuw11OLCB7h5NWtDyeK6oTvMctBCrv17hM6/EPJYO6mGKFP+lxdNv/YvB9zhVNyYDqO6qK8UtT/2KfTStX6veR7+0m8DC17R+TD8s2GiahgC3+JCUZ6QDoJnby7OMggpmVRsJXb+d8fqHwMNeUXv2U+10ifmfu03SCItWpQ1MNiGjEjpIufU0gx0m9mn/wcJTx/KBaCUUT92Dg==", // change to your clientSecret
     authRequired: false,
     authorizationParams: {
       response_type: "id_token",
