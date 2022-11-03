@@ -18,6 +18,9 @@ const accounts = [2, 5, 6, 7, 8, 9, 10, 11].map((n) => {
 
 const prd = process.env.NODE_ENV === "production";
 
+app.set("views", path.join(__dirname, "ejs"));
+app.set("view engine", "ejs");
+
 app.use(
   auth({
     issuerBaseURL: prd ? "https://nftoidc.clsl.net" : "http://localhost:3000",
@@ -78,8 +81,22 @@ app.get("/", (req, res) => {
   res.sendFile(staticFile("index.html"));
 });
 
+const ipfsURIToGatewayURI = (ipfsURI) => {
+  if (ipfsURI.startsWith("http")) {
+    return ipfsURI;
+  }
+  const uri = "https://ipfs.io/ipfs/" + ipfsURI.replace("ipfs://", "");
+  return uri;
+};
+
 app.get("/private", requiresAuth(), (req, res) => {
-  res.sendFile(staticFile("private.html"));
+  const {
+    nft_metadata: { name: nftName, image: nftImage },
+  } = req.oidc.user;
+  res.render("private", {
+    nftName,
+    nftImage: ipfsURIToGatewayURI(nftImage),
+  });
 });
 
 app.get("/images/:image", requiresAuth(), (req, res) => {

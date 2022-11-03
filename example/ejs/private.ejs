@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example Website</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+  </head>
+  <body>
+    <div class="ui inverted menu">
+      <div class="ui container">
+        <h2 class="header item">
+          NFT Login Example App
+        </h2>
+        <div class="right menu">
+          <div class="ui dropdown simple item">
+            <img class="ui mini image" style="object-fit: contain;" src="<%= nftImage %>">
+            <div class="menu">
+              <div class="header">
+                <%= nftName %>
+              </div>
+              <div class="divider"></div>
+              <a class="item" href="/logout">
+                Sign out
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui main text container">
+      <h1 class="ui header">Private Content</h1>
+      <div class="ui equal width grid">
+        <div class="row">
+          <div class="column">
+            <h3>sleeping cat head</h3>
+            <img src="/images/cathead.jpg" />
+          </div>
+          <div class="column">
+            <h3>sleeping cat paw</h3>
+            <img src="/images/catpaw.jpg" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
