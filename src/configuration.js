@@ -4,6 +4,7 @@ require("dotenv").config();
 const jwks = require("./jwks.json");
 
 module.exports = {
+  clients: [],
   interactions: {
     url(ctx, interaction) {
       return `/interaction/${interaction.uid}`;

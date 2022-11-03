@@ -1,4 +1,5 @@
 const { strict: assert } = require("assert");
+const crypto = require("crypto");
 const querystring = require("querystring");
 const { inspect } = require("util");
 
@@ -6,7 +7,6 @@ const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
 const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
-const { registerClientApp } = require("./db/azure-cosmosdb");
 const { InvalidSignatureError, InvalidOwnerError } = require("./errors");
 
 const body = urlencoded({ extended: false });
@@ -29,7 +29,7 @@ const debug = (obj) =>
     }
   );
 
-module.exports = (app, provider) => {
+module.exports = (app, provider, clientAdapter) => {
   const {
     constructor: {
       errors: { SessionNotFound },
@@ -211,18 +211,30 @@ module.exports = (app, provider) => {
     try {
       const { name, redirectURIs, postLogoutRedirectURIs } = req.body;
 
-      if (!name) throw new Error("name is required.");
+      if (!name) return res.status(400).send("name is required.");
       if (redirectURIs.length == 0)
-        throw new Error("redirectURIs can't be empty.");
+        return res.status(400).send("redirectURIs can't be empty.");
 
-      const { id, client_secret } = await registerClientApp(
-        name,
-        redirectURIs,
-        postLogoutRedirectURIs
-      );
+      const client_id = crypto.randomUUID();
+      const client_secret = crypto.randomBytes(256).toString("base64");
+      const client = {
+        client_name: name,
+        client_id,
+        partitionKey: "",
+        client_secret,
+        redirect_uris: redirectURIs,
+        post_logout_redirect_uris: postLogoutRedirectURIs,
+        response_types: ["id_token"],
+        grant_types: ["implicit"],
+        token_endpoint_auth_method: "none",
+      };
 
-      return res.send({ id, client_secret });
+      await clientAdapter.upsert(client_id, client);
+      const result = await clientAdapter.find(client_id);
+      console.log(result);
+      res.status(201).send(result);
     } catch (err) {
+      res.status(400).send("Bad Request");
       next(err);
     }
   });

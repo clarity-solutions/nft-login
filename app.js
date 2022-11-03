@@ -10,7 +10,7 @@ const { Provider } = require("oidc-provider");
 
 const configuration = require("./src/configuration");
 const routes = require("./src/routes");
-const { queryContainer } = require("./src/db/azure-cosmosdb");
+const Adapter = require("./src/adapters/mongodb");
 
 const prod = process.env.NODE_ENV === "production";
 
@@ -39,8 +39,11 @@ app.set("view engine", "ejs");
 
 let server;
 (async () => {
-  const clients = await queryContainer();
-  const provider = new Provider(ISSUER, { ...configuration, clients });
+  if (process.env.MONGODB_URI) {
+    await Adapter.connect();
+  }
+
+  const provider = new Provider(ISSUER, { adapter: Adapter, ...configuration });
 
   if (prod) {
     app.enable("trust proxy");
@@ -66,7 +69,7 @@ let server;
     });
   }
 
-  routes(app, provider);
+  routes(app, provider, new Adapter("Client"));
   app.use(provider.callback());
   server = app.listen(PORT, () => {
     console.log(
