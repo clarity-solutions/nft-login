@@ -36,18 +36,26 @@ app.use(
     idpLogout: true,
     afterCallback: (req, res, session) => {
       const claims = jose.decodeJwt(session.id_token);
+      console.log({ claims });
       // example
-      // {
-      //   sub: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09/2', # account_id
-      //   nft_contract_address: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09',
-      //   nft_item_id: '2',
-      //   nonce: 'zMBFYuM5WRy86IOIFcGYl7PM8tPHBPSl0WmPtG7F4Ac',
-      //   s_hash: 'WxpefKbbgUvRDs_oYHGBQw',
-      //   aud: '8fbe64c4-c279-4f91-971d-1419a9553ddb', # client_id
-      //   exp: 1667108741,
-      //   iat: 1667105141,
-      //   iss: 'http://localhost:3000'
-      // }
+      //   claims: {
+      //     sub: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09/5',
+      //     nft_contract_address: '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09',
+      //     nft_item_id: '5',
+      //     nft_metadata: {
+      //       name: 'first OYT',
+      //       description: 'This is the first Token of Cubifox.',
+      //       image: 'ipfs://bafybeifanyrc6wpqccxyy4wie44le7ocxgmoas2pv3mjzu5vjtjnok5xvy/mamabutter.png',
+      //       objectURI: 'ipfs://bafybeicr26dsoru4gwwfxrpzxmm2wx6rlrytwjndspjnkmijzxcprkeksi/mamabutter.obj.zip'
+      //     },
+      //     nonce: 'IqUJxVB3yOrgirgo9fsdDQtQhYL5kD4g-6iUUkuEhn0',
+      //     s_hash: 'WxpefKbbgUvRDs_oYHGBQw',
+      //     aud: '4c6058d1-9055-46d6-91ff-bd32582ff885',
+      //     exp: 1667459251,
+      //     iat: 1667455651,
+      //     iss: 'http://localhost:3000'
+      //   }
+
       const { nft_contract_address, nft_item_id } = claims;
       const validAccount = accounts.find(
         (account) =>
