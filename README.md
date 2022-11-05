@@ -18,7 +18,7 @@ This is an OpenID Connect identity provider (OIDC IdP). It allows owners of spec
 
 ## Demo
 
-TBD
+https://www.loom.com/share/c845a1a3b9974a21a6f3ec57e48514a6
 
 ## Usage
 
