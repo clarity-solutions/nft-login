@@ -51,6 +51,8 @@ $ npm run example
 
 You can see an example app in https://example.localhost
 
+>If you don't have any NFT on Polygon Mumbai chain, you can get it for free by [https://cubifox.clsl.net]().
+
 ## Development
 
 Clone this repository and prepare the project.
