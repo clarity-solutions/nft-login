@@ -4,6 +4,9 @@ const path = require("path");
 const jose = require("jose");
 const express = require("express");
 const { auth, requiresAuth } = require("express-openid-connect");
+
+const accounts = require("./accounts")
+
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -28,13 +31,6 @@ const {
 const staticFile = (filename) => {
   return path.resolve(__dirname, "static", filename);
 };
-
-const accounts = [2, 5, 6, 7, 8, 9, 10, 11].map((n) => {
-  return {
-    nft_contract_address: "0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09",
-    nft_item_id: n,
-  };
-});
 
 app.set("views", path.join(__dirname, "ejs"));
 app.set("view engine", "ejs");
