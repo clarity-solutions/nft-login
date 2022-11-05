@@ -25,14 +25,12 @@ TBD
 Register your app to [NFTLogin](https://nft-login.clsl.net) (our IdP as a service) and get `client_id` and `client_secret`. You needs them to request idToken from NFTLogin.
 
 ### Quick Start with Example App
+1. clone this repo
+2. Edit files
+  - `example/.env`
+  - `example/accounts.js` (Edit NFTs witch you allow to access private contents.)
 
-```sh
-$ git clone https://github.com/clarity-solutions/nft-login.git
-```
-
-Edit `example/accounts.js` file for allowing whitch NFT can access to your app.
-
-When you run example in localhost, you need a reverse proxy to serve https locally.
+3. When you run example in localhost, you need a reverse proxy to serve https locally.
 
 - Caddy https://caddyserver.com/docs/install
 
@@ -40,6 +38,7 @@ When you run example in localhost, you need a reverse proxy to serve https local
 $ caddy reverse-proxy --from example.localhost:443 --to localhost:3001
 ```
 
+4. Start example app
 ```sh
 $ cd nft-login
 $ npm i
