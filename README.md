@@ -19,7 +19,7 @@ This is an OpenID Connect identity provider (OIDC IdP). It allows owners of spec
 
 ## Demo
 
-https://www.loom.com/share/c845a1a3b9974a21a6f3ec57e48514a6
+https://www.loom.com/share/a19bcba0880446cb9c0f4f9d7c431b08
 
 ## Usage
 
