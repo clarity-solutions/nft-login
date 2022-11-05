@@ -1,4 +1,4 @@
-# nft-oidc
+# nft-login
 
 [東京 web3 ハッカソン](https://tokyo.akindo.io/)提出用リポジトリ。
 

@@ -1,10 +1,10 @@
 {
-  "name": "nft-oidc",
+  "name": "nft-login",
   "description": "OpenID Connect with NFT",
   "version": "0.1.0",
   "author": "Clarity Solutions",
   "bugs": {
-    "url": "https://github.com/clarity-solutions/nft-oidc/issues"
+    "url": "https://github.com/clarity-solutions/nft-login/issues"
   },
   "dependencies": {
     "@picocss/pico": "^1.5.6",
@@ -27,13 +27,13 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1"
   },
-  "homepage": "https://github.com/clarity-solutions/nft-oidc#readme",
+  "homepage": "https://github.com/clarity-solutions/nft-login#readme",
   "keywords": [],
   "license": "Apache-2.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/clarity-solutions/nft-oidc.git"
+    "url": "git+https://github.com/clarity-solutions/nft-login.git"
   },
   "scripts": {
     "dev": "nodemon app.js --watch src/",
