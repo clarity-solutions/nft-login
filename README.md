@@ -8,13 +8,13 @@ NFT でログインできる OpenID Connect identity provider (OIDC IdP) です�
 
 This is an OpenID Connect identity provider (OIDC IdP). It allows owners of specific NFTs to access private contents. Since NFTs are transferable, you can use NFTs as transferable membership.
 
-- Tech stacks
+<!-- - Tech stacks
   - Node.js
   - [web3.js](https://github.com/web3/web3.js#readme)
 - Blockchain
   - [Polygon Mumbai](https://wiki.polygon.technology/docs/develop/network-details/network/#mumbai-pos-testnet)
 - Deployed Contract
-  - N/A. We don't deploy Contract.
+  - N/A. We don't deploy Contract. -->
 
 ## Demo
 
@@ -22,49 +22,45 @@ TBD
 
 ## Usage
 
-Register your app to NFT-OIDC and get client_id and client_secret. You needs them to request idToken from NFT-OIDC.
+Register your app to [NFTLogin](https://nft-login.clsl.net) (our IdP as a service) and get `client_id` and `client_secret`. You needs them to request idToken from NFTLogin.
+
+### Quick Start with Example App
 
 ```sh
-curl -X POST \
--H "Content-Type: application/json" \
--d '{"name":"Your App Name", "redirectURIs":["https://${yourAppUrl}/callback"], "postLogoutRedirectURIs":["https://${yourAppUrl}"]}' \
-https://nftoidc.clsl.net/clients
-
-# response
-{
-  "id":"your-client-id",
-  "client_secret":"your-client-secret"
-}
-
+$ git clone https://github.com/clarity-solutions/nft-login.git
 ```
 
-### Example website
-
-```
-npm run example
-```
+Edit `example/accounts.js` file for allowing whitch NFT can access to your app.
 
 When you run example in localhost, you need a reverse proxy to serve https locally.
 
 - Caddy https://caddyserver.com/docs/install
 
-```
+```sh
 $ caddy reverse-proxy --from example.localhost:443 --to localhost:3001
 ```
+
+```sh
+$ cd nft-login
+$ npm i
+$ npm run example
+```
+
+You can see an example app in https://example.localhost
 
 ## Development
 
 Clone this repository and prepare the project.
 
-```
-npm install
-node scripts/generate-keys.js
+```sh
+$ npm install
+$ node scripts/generate-keys.js
 ```
 
 Create `.env` from `.env.example`.
 
 Launch the server.
 
-```
-npm run dev
+```sh
+$ npm run dev
 ```
