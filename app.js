@@ -15,7 +15,7 @@ const Adapter = require("./src/adapters/mongodb");
 const prod = process.env.NODE_ENV === "production";
 
 const PORT = 3000;
-const ISSUER = prod ? "https://nftoidc.clsl.net" : `http://localhost:${PORT}`;
+const ISSUER = prod ? "https://nft-login.clsl.net" : `http://localhost:${PORT}`;
 
 const app = express();
 
