@@ -1,9 +1,29 @@
+require("dotenv").config()
+
 const path = require("path");
 const jose = require("jose");
 const express = require("express");
 const { auth, requiresAuth } = require("express-openid-connect");
 const app = express();
 const port = process.env.PORT || 3001;
+
+const undefinedEnvs = [
+  "OIDC_ISSUER_BASE_URL",
+  "OIDC_BASE_URL",
+  "OIDC_CLIENT_ID",
+  "OIDC_CLIENT_SECRET",
+].filter((envName) => !process.env[envName])
+if (undefinedEnvs.length > 0) {
+  console.error(`Environment variables ${undefinedEnvs.join(", ")} are required. You should set them at example/.env`)
+  process.exit(1)
+}
+
+const {
+  OIDC_ISSUER_BASE_URL,
+  OIDC_BASE_URL,
+  OIDC_CLIENT_ID,
+  OIDC_CLIENT_SECRET,
+} = process.env
 
 const staticFile = (filename) => {
   return path.resolve(__dirname, "static", filename);
@@ -16,20 +36,15 @@ const accounts = [2, 5, 6, 7, 8, 9, 10, 11].map((n) => {
   };
 });
 
-const prd = process.env.NODE_ENV === "production";
-
 app.set("views", path.join(__dirname, "ejs"));
 app.set("view engine", "ejs");
 
 app.use(
   auth({
-    issuerBaseURL: prd ? "https://nftoidc.clsl.net" : "http://localhost:3000",
-    baseURL: prd
-      ? "https://nftoidc-example.clsl.net"
-      : "https://example.localhost",
-    clientID: "745bb7cc-1837-4d41-928c-f217da22d453", // change to your clientID
-    secret:
-      "HADdWFa/WElYfLZh8LuPDqKiMAV+LPw1V5fAMLe++8js7wfGIiMPEO4FvMvxSQHqjMhq2zrcelMzRjsEWaYnjGto/JJ/6Jp1SotsRhiVBlW7FrKnB6H4MG/mpbNcsjuUrYouRd0vjuw11OLCB7h5NWtDyeK6oTvMctBCrv17hM6/EPJYO6mGKFP+lxdNv/YvB9zhVNyYDqO6qK8UtT/2KfTStX6veR7+0m8DC17R+TD8s2GiahgC3+JCUZ6QDoJnby7OMggpmVRsJXb+d8fqHwMNeUXv2U+10ifmfu03SCItWpQ1MNiGjEjpIufU0gx0m9mn/wcJTx/KBaCUUT92Dg==", // change to your clientSecret
+    issuerBaseURL: OIDC_ISSUER_BASE_URL,
+    baseURL: OIDC_BASE_URL,
+    clientID: OIDC_CLIENT_ID,
+    secret: OIDC_CLIENT_SECRET,
     authRequired: false,
     authorizationParams: {
       response_type: "id_token",
