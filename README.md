@@ -8,13 +8,14 @@ NFT でログインできる OpenID Connect identity provider (OIDC IdP) です�
 
 This is an OpenID Connect identity provider (OIDC IdP). It allows owners of specific NFTs to access private contents. Since NFTs are transferable, you can use NFTs as transferable membership.
 
-<!-- - Tech stacks
+- Tech stacks
   - Node.js
+  - OpenID Connect
   - [web3.js](https://github.com/web3/web3.js#readme)
 - Blockchain
-  - [Polygon Mumbai](https://wiki.polygon.technology/docs/develop/network-details/network/#mumbai-pos-testnet)
+  - We support [Polygon Mumbai](https://wiki.polygon.technology/docs/develop/network-details/network/#mumbai-pos-testnet) so far.
 - Deployed Contract
-  - N/A. We don't deploy Contract. -->
+  - N/A. We don't deploy Contract.
 
 ## Demo
 
