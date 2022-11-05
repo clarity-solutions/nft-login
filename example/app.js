@@ -1,11 +1,11 @@
-require("dotenv").config()
+require("dotenv").config();
 
 const path = require("path");
 const jose = require("jose");
 const express = require("express");
 const { auth, requiresAuth } = require("express-openid-connect");
 
-const accounts = require("./accounts")
+const accounts = require("./accounts");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -15,10 +15,14 @@ const undefinedEnvs = [
   "OIDC_BASE_URL",
   "OIDC_CLIENT_ID",
   "OIDC_CLIENT_SECRET",
-].filter((envName) => !process.env[envName])
+].filter((envName) => !process.env[envName]);
 if (undefinedEnvs.length > 0) {
-  console.error(`Environment variables ${undefinedEnvs.join(", ")} are required. You should set them at example/.env`)
-  process.exit(1)
+  console.error(
+    `Environment variables ${undefinedEnvs.join(
+      ", "
+    )} are required. You should set them at example/.env`
+  );
+  process.exit(1);
 }
 
 const {
@@ -26,7 +30,7 @@ const {
   OIDC_BASE_URL,
   OIDC_CLIENT_ID,
   OIDC_CLIENT_SECRET,
-} = process.env
+} = process.env;
 
 const staticFile = (filename) => {
   return path.resolve(__dirname, "static", filename);
