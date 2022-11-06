@@ -23,9 +23,11 @@ https://www.loom.com/share/a19bcba0880446cb9c0f4f9d7c431b08
 
 ## Usage
 
-Register your app to [NFT Login](https://nft-login.clsl.net) and get `client_id` and `client_secret`. You needs them to request idToken from NFT Login.
+Register your app with [NFT Login](https://nft-login.clsl.net) to get `client_id` and `client_secret`. You need them to connect your application with NFT Login. Because NFT Login provides OpenID Connect IdP, you need to implement Relying Party. The easiest way to try it out is to use our example app as described below.
 
 ### Quick Start with Example App
+
+You can see how you can implement Relying Party at [example/](./example/).
 
 1. Clone this repo.
 2. Edit files.
