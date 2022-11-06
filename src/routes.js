@@ -106,7 +106,7 @@ module.exports = (app, provider, clientAdapter) => {
       }
 
       if (network == "goerli") {
-        web3linker = new Web3Linker(process.env.GOERLI_RPC_URI);
+        web3linker = new Web3Linker("goerli");
       }
 
       const isValidOwner = await web3linker.isCollectNFTOwner(
