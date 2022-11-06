@@ -87,7 +87,6 @@ module.exports = (app, provider, clientAdapter) => {
 
   app.post("/interaction/:uid/login", setNoCache, body, async (req, res) => {
     try {
-      console.log(1);
       const details = await provider.interactionDetails(req, res);
       console.log("interactionDetails on /interaction/:uid/login", details);
 
