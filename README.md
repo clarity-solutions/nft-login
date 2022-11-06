@@ -13,7 +13,7 @@ This is an OpenID Connect identity provider (OIDC IdP). It allows owners of spec
   - OpenID Connect
   - [web3.js](https://github.com/web3/web3.js#readme)
 - Blockchain
-  - We support [Polygon Mumbai](https://wiki.polygon.technology/docs/develop/network-details/network/#mumbai-pos-testnet) so far.
+  - We support [Polygon Mumbai](https://wiki.polygon.technology/docs/develop/network-details/network/#mumbai-pos-testnet) and [Goerli](https://ethereum.org/en/developers/docs/networks/#goerli) so far.
 - Deployed Contract
   - N/A. We don't deploy Contract.
 
@@ -51,7 +51,7 @@ $ npm run example
 
 You can see an example app in https://example.localhost
 
->If you don't have any NFT on Polygon Mumbai chain, you can get it for free by [https://cubifox.clsl.net]().
+> You can get NFT on Polygon Mumbai chain for testing at [Cubifox](https://cubifox.clsl.net).
 
 ## Development
 
