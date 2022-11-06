@@ -2,10 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link
-      rel="stylesheet"
-      href="/pico.min.css"
-    />
+    <link rel="stylesheet" href="/pico.min.css" />
     <script src="/web3.min.js"></script>
     <style>
       .hidden {
@@ -42,14 +39,33 @@
           >
             <div>
               <label>
+                NFT Network
+                <select name="network">
+                  <option value="polygon-mumbai">
+                    Mumbai (Polygon testnet)
+                  </option>
+                  <option value="goerli">Goerli (Ethereum testnet)</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <label>
                 NFT Contract Address
-                <input type="text" name="contractAddress" value="<%= process.env.NODE_ENV === 'production' ? '' : '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09' %>"/>
+                <input
+                  type="text"
+                  name="contractAddress"
+                  value="<%= process.env.NODE_ENV === 'production' ? '' : '0xF97Bd91B2399d4b45232717f1288C0f1dC9eEe09' %>"
+                />
               </label>
             </div>
             <div>
               <label>
                 NFT Item ID
-                <input type="text" name="tokenID" value="<%= process.env.NODE_ENV === 'production' ? '' : '2' %>" />
+                <input
+                  type="text"
+                  name="tokenID"
+                  value="<%= process.env.NODE_ENV === 'production' ? '' : '2' %>"
+                />
               </label>
             </div>
 

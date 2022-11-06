@@ -6,7 +6,7 @@ const { inspect } = require("util");
 const isEmpty = require("lodash/isEmpty");
 const { urlencoded } = require("express");
 
-const { isUserLoggedIn, isCollectNFTOwner } = require("./web3");
+const { Web3Linker } = require("./web3");
 const { InvalidSignatureError, InvalidOwnerError } = require("./errors");
 
 const body = urlencoded({ extended: false });
@@ -87,14 +87,17 @@ module.exports = (app, provider, clientAdapter) => {
 
   app.post("/interaction/:uid/login", setNoCache, body, async (req, res) => {
     try {
+      console.log(1);
       const details = await provider.interactionDetails(req, res);
       console.log("interactionDetails on /interaction/:uid/login", details);
 
       const originalMessage = `Sign in with NFT: ${req.params.uid}`;
 
-      const { signature, ethereamAddress, contractAddress, tokenID } = req.body;
+      const { signature, ethereamAddress, network, contractAddress, tokenID } =
+        req.body;
 
-      const isValidSignature = isUserLoggedIn(
+      let web3linker = new Web3Linker("polygon-mumbai");
+      const isValidSignature = web3linker.isUserLoggedIn(
         originalMessage,
         signature,
         ethereamAddress
@@ -103,7 +106,11 @@ module.exports = (app, provider, clientAdapter) => {
         throw new InvalidSignatureError();
       }
 
-      const isValidOwner = await isCollectNFTOwner(
+      if (network == "goerli") {
+        web3linker = new Web3Linker(process.env.GOERLI_RPC_URI);
+      }
+
+      const isValidOwner = await web3linker.isCollectNFTOwner(
         ethereamAddress,
         contractAddress,
         tokenID
@@ -114,7 +121,7 @@ module.exports = (app, provider, clientAdapter) => {
 
       const result = {
         login: {
-          accountId: `${contractAddress}/${tokenID}`,
+          accountId: `${network}/${contractAddress}/${tokenID}`,
         },
       };
 
